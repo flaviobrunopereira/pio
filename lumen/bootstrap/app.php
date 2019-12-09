@@ -64,6 +64,13 @@ $app->routeMiddleware([
      'auth' => App\Http\Middleware\Authenticate::class,
  ]);
 
+$app->routeMiddleware([
+    'IPAddresses' => App\Http\Middleware\RedirectInvalidIPs::class,
+]);
+
+$app->Middleware([
+    'IPAddresses' => App\Http\Middleware\RedirectInvalidIPs::class,
+]);
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -77,7 +84,7 @@ $app->routeMiddleware([
 
 $app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->register(App\Providers\EventServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------

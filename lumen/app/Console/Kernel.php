@@ -13,7 +13,10 @@ class Kernel extends ConsoleKernel
      * @var array
      */
     protected $commands = [
-        //
+        Commands\UpdateStudentsCommand::class,
+        Commands\UpdateTeachersCommand::class,
+        Commands\UpdateEmployeesCommand::class,
+        Commands\SyncSigesCommand::class
     ];
 
     /**
@@ -24,6 +27,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+    $schedule->command('update:employees')->dailyAt('00:00');;
+	$schedule->command('update:students')->dailyAt('00:01');;
+	$schedule->command('update:teachers')->dailyAt('00:02');;
+	$schedule->command('update:siges')->dailyAt('03:00');;
     }
 }
+
+
