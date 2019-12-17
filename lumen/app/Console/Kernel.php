@@ -16,7 +16,8 @@ class Kernel extends ConsoleKernel
         Commands\UpdateStudentsCommand::class,
         Commands\UpdateTeachersCommand::class,
         Commands\UpdateEmployeesCommand::class,
-        Commands\SyncSigesCommand::class
+        Commands\SyncSigesCommand::class,
+        Commands\SyncGiafCommand::class
     ];
 
     /**
@@ -27,10 +28,11 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-    $schedule->command('update:employees')->dailyAt('00:00');;
-	$schedule->command('update:students')->dailyAt('00:01');;
-	$schedule->command('update:teachers')->dailyAt('00:02');;
-	$schedule->command('update:siges')->dailyAt('03:00');;
+    $schedule->command('update:employees')->twiceDaily(1,13);
+	$schedule->command('update:students')->dailyAt('02:30');
+	$schedule->command('update:teachers')->dailyAt('02:00');
+	$schedule->command('update:siges')->dailyAt('03:00');
+	$schedule->command('update:giaf')->dailyAt('03:00');
     }
 }
 

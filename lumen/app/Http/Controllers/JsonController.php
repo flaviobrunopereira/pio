@@ -27,7 +27,7 @@ class JsonController extends Controller
 
     public function listStudents(Request $request)
     {
-         $listStudents = DB::table("retrieveStudentDetail")->orderBy('name')->get();
+         $listStudents = DB::table("student_detail")->orderBy('name')->get();
         // to be improved with views
         Log::info('Request Type' . $request);
         if($request->wantsJSON()) {

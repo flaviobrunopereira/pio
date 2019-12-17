@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Console\Command;
 
 
-
 /**
  * Class deletePostsCommand
  *
@@ -74,19 +73,24 @@ class UpdateStudentsCommand extends Command
                     'numSGA' => $value['numSGA'],
                     'studentName' => $value['studentName'],
                     'courseCode' => $value['courseCode'],
-                    'emailInt' => json_encode($value['emailInt']), //implode if array
-                    'emailAlt' => json_encode($value['emailAlt'])
+                    'emailInt' => json_encode($value['emailInt'], JSON_UNESCAPED_SLASHES), //implode if array
+                    'emailAlt' => json_encode($value['emailAlt'], JSON_UNESCAPED_SLASHES)
                 ]);
-                if($results==0)
-                Log::info('Inserted new user into database: ' . $value['numInt'] . " " . $results);;
+                if ($results == 0)
+                    Log::info('Inserted new user into database: ' . $value['numInt'] . " " . $results);;
             }
         } catch (ClientException $e) {
             Log::error('Error inserting user : ' . $value['numInt'] . "Error: " . $e);
         }
 
-
         try {
             $detailStudents = UpdateStudentsCommand::detailStudents();
+        } catch (Exception $e) {
+            Log::error("Error: " . $e);
+        }
+
+        try {
+            $detailStudents = UpdateStudentsCommand::academicStudents();
         } catch (Exception $e) {
             Log::error("Error: " . $e);
         }
@@ -99,24 +103,29 @@ class UpdateStudentsCommand extends Command
     }
 
 
-
     public function detailStudents()
     {
-        $students = DB::table("OUEnrolledStudents")->select('numInt','numSGA','courseCode')->get();
+        $students = DB::table("OUEnrolledStudents")->select('numInt', 'numSGA', 'courseCode', 'studentName')->get();
         $students = json_decode($students, true);
+
         $url = 'https://pio.intranet.ipc.pt/asservices/rest/v1/studentservice/retrievestudentdetail';
-        foreach ($students as $student => $value) {
-            $body = array(
-                'ou' => "ISCAC",
-                'courseCode' => $value["courseCode"],
-                'numSGA' => $value["numSGA"],
-                'withPhoto' => true
-            );
-            $response = $this->fetchData($url, $body);
-            $sData = json_decode($response, true);
-            if($sData['name']!=NULL) {
+
+
+
+            foreach ($students as $student => $value) {
+                Log::debug("Course " .  $value['courseCode'] . "   " . isset($value["courseCode"]));
+                if (isset($value["courseCode"])) {
+                $body = array(
+                    'ou' => "ISCAC",
+                    'courseCode' => $value["courseCode"],
+                    'numSGA' => $value["numSGA"],
+                    'withPhoto' => true
+                );
+                $response = $this->fetchData($url, $body);
+                $sData = json_decode($response, true);
+                Log::debug('Fetching details of user: ' . $value["numSGA"] . " " . $value["courseCode"]);;
                 try {
-                    $details = DB::table("retrieveStudentDetail")->updateOrInsert([
+                    $details = DB::table("student_detail")->updateOrInsert([
                         'photo' => $sData['photo'],
                         'numInt' => $sData['numInt'],
                         'numSGA' => $sData['numSGA'],
@@ -127,19 +136,19 @@ class UpdateStudentsCommand extends Command
                         'emailInt' => json_encode($sData['emailInst']),
                         'emailAlt' => json_encode($sData['emailAlt'])
                     ]);
-                    Log::info('Fetching details of user: ' . $sData['numInt']);;
+                    Log::debug('Got details of user: ' . $sData['numInt'] . " " . $sData['name']);
                 } catch (ClientException $e) {
-                    Log::error('Error inserting user : ' . $sData['numInt'] . "Error: " . $e);
+                    Log::error('Error inserting user : ' . $sData['numInt'] . " " . $sData['name'] . ". Error: " . $e);
                 }
             }
-            else
-                Log::error('Error inserting user : ' . $sData['numInt'] . "Error: ");
-        }
+         else {
+            Log::debug("No course " .  $value['numSGA'] . " " . $value['numInt']);
+        }}
     }
 
     public function contactsStudents()
     {
-        $students = DB::table("OUEnrolledStudents")->select('numInt','numSGA','courseCode')->get();
+        $students = DB::table("OUEnrolledStudents")->select('numInt', 'numSGA', 'courseCode')->get();
         $students = json_decode($students, true);
         $students = array_unique(array_column($students, 'numInt'));
         $url = env("PIO_URL") . '/asservices/rest/v1/studentservice/retrievepersonaldata';
@@ -150,9 +159,10 @@ class UpdateStudentsCommand extends Command
             );
             $response = $this->fetchData($url, $body);
             $sData = json_decode($response, true);
-            if($sData["name"]!=NULL) {
+            if ($sData["name"] != NULL) {
                 try {
-                    $details = DB::table("students_contacts")->updateOrInsert([
+                    $details = DB::table("student_contact")->updateOrInsert([
+                        'numInt' => $numInt,
                         'name' => $sData['name'],
                         'emailInt' => $sData['emailInt'],
                         'emailAlt' => $sData['emailAlt'],
@@ -172,20 +182,58 @@ class UpdateStudentsCommand extends Command
                     ]);
                     Log::info('Fetching contacts of user: ' . $numInt);;
                 } catch (ClientException $e) {
-                   // echo $e->getRequest() . "\n";
+                    // echo $e->getRequest() . "\n";
                     Log::error('Error inserting user : ' . $numInt . "Error: " . $e);
                 }
-            }
-            else
+            } else
                 Log::error('Error inserting user : ' . $numInt . "Error: ");
         }
     }
+
+    public function academicStudents()
+    {
+        $students = DB::table("OUEnrolledStudents")->select('numInt', 'numSGA', 'courseCode')->get();
+        $students = json_decode($students, true);
+        $url = env("PIO_URL") . '/asservices/rest/v1/studentservice/retrievestudentacademicdata';
+        foreach ($students as $student => $value) {
+            $body = array(
+                'ou' => "ISCAC",
+                'courseCode' => $value['courseCode'],
+                'numSGA' => $value['numSGA']
+            );
+            $response = $this->fetchData($url, $body);
+            $academicDetails = json_decode($response, true);
+            $academicDetails = $academicDetails["academicData"][0];
+            try {
+                $details = DB::table("student_academic")->updateOrInsert([
+                    'numSGA' => $value['numSGA'],
+                    'curricularYear' => $academicDetails['curricularYear'],
+                    'admissionDate' => $academicDetails['admissionDate'],
+                    'mobility' => $academicDetails['mobility'],
+                    'lastLectiveYear' => $academicDetails['lastLectiveYear'],
+                    'conclusionDate' => $academicDetails['conclusionDate'],
+                    'studyCycle' => $academicDetails['studyCycle'],
+                    'courseCode' => $academicDetails['courseCode'],
+                    'avgFinalGrade' => $academicDetails['avgFinalGrade'],
+                    'admissionDescription' => $academicDetails['admissionDescription'],
+                    'courseName' => $academicDetails['courseName'],
+                    'studyCycleCode' => $academicDetails['studyCycleCode'],
+                    'registrationDate' => $academicDetails['registrationDate'],
+                    'admissionLectiveYear' => $academicDetails['admissionLectiveYear']
+                ]);
+                Log::info('Fetching academic stats of user: ' . $value['numSGA']);;
+            } catch (ClientException $e) {
+                Log::error('Error inserting user : ' . $value['numSGA'] . "Error: " . $e->getRequest());
+            }
+        }
+    }
+
 
     private function fetchData($url, $body)
     {
         $client = new Client();
         $username = env("PIO_USERNAME");
-        $password = env("PIO_PASSWORD") ;
+        $password = env("PIO_PASSWORD");
         $options = array(
             'auth' => [
                 $username,

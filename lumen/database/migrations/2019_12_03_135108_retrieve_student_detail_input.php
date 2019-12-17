@@ -13,7 +13,7 @@ class RetrieveStudentDetailInput extends Migration
      */
     public function up()
     {
-        Schema::create('retrieveStudentDetail', function (Blueprint $table) {
+        Schema::create('student_detail', function (Blueprint $table) {
             $table->integer('numInt');
             $table->biginteger('numSGA');
             $table->string('name');
@@ -33,6 +33,6 @@ class RetrieveStudentDetailInput extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('retrieveStudentDetail');
+        Schema::dropIfExists('student_detail');
     }
 }

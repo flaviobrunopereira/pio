@@ -86,11 +86,11 @@ class DataController extends BaseController
 
             $response = $this->fetchData($url, $body);
             $sData = json_decode($response, true);
-            if($sData['name']!=NULL) {
-                echo $student;
+           // if($sData['name']!=NULL) {
+                dump($student);
             try {
 
-                $details = DB::table("retrieveStudentDetail")->updateOrInsert([
+                $details = DB::table("student_detail")->updateOrInsert([
                     'photo' => $sData['photo'],
                     'numInt' => $sData['numInt'],
                     'numSGA' => $sData['numSGA'],
@@ -108,9 +108,9 @@ class DataController extends BaseController
                 Log::error('Error inserting user : ' . $sData['numInt'] . "Error: " . $e);
             }
             }
-            else
-                Log::error('Error inserting user : ' . $sData['numInt'] . "Error: ");
-        }
+            //else
+          //      Log::error('Error inserting user : ' . $sData['numInt'] . "Error: ");
+        //}
     }
 
 

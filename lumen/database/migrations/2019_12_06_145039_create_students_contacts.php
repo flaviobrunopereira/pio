@@ -13,7 +13,8 @@ class CreateStudentsContacts extends Migration
      */
     public function up()
     {
-        Schema::create('students_contacts', function (Blueprint $table) {
+        Schema::create('student_contact', function (Blueprint $table) {
+           $table->integer('numInt');
             $table->string('name');
             $table->string('emailInt')->nullable();
             $table->string('emailAlt')->nullable();
@@ -41,6 +42,6 @@ class CreateStudentsContacts extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('students_contacts');
+        Schema::dropIfExists('student_contact');
     }
 }

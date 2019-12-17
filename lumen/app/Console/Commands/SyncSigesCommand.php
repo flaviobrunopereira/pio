@@ -51,7 +51,7 @@ class SyncSigesCommand extends Command
         }
     }
 
-    // Update DB
+
     public function syncSiges()
     {
         $students = DB::table('OUEnrolledStudents')->get();

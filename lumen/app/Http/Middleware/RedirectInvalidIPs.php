@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Symfony\Component\HttpFoundation\IpUtils;
+use Log;
 
 class RedirectInvalidIPs
 {
@@ -35,7 +36,7 @@ public function handle($request, Closure $next)
 foreach ($request->getClientIps() as $ip) {
 if (! $this->isValidIp($ip) && ! $this->isValidIpRange($ip)) {
     Log::info('Invalid access by:' . $ip);
-return redirect('/');
+return redirect( env('REDIRECT_TO'));
 }
 }
 return $next($request);
@@ -49,7 +50,7 @@ return $next($request);
 */
 protected function isValidIp($ip)
 {
-   $ips = array('IP_ADDRESS');
+   $ips = array(env('IP_ADDRESS'));
 return in_array($ip, $ips);
 }
 

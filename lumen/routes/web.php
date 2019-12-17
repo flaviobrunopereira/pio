@@ -1,5 +1,5 @@
 <?php
-// header('Content-Type: text/html; charset=utf-8');
+
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -15,8 +15,9 @@ use GuzzleHttp\Exception\ClientException;
 
 // temporary to debug should be on a another section
 // controllers only to store
-
+use Illuminate\Support\Collection;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 $router->get('/', function () use ($router) {
     return $router->app->version();
@@ -24,14 +25,19 @@ $router->get('/', function () use ($router) {
 
 // Para converter para controllers só para desenvolvimento
 
-$router->get('/api/ping', function () use ($router){
+$router->get('/api/', function () use ($router){
     return "ping";
 });
 
+// testes de token
+$router->get('/api/ping', ['middleware' => 'auth' , function () use ($router){
+    return "pong";
+}]);
+
 # Código para gerar nova chave
-#$router->get('/key', function() {
-#    return \Illuminate\Support\Str::random(32);
-#});
+//$router->get('/key', function() {
+//    return \Illuminate\Support\Str::random(32);
+//});
 
 # Chamadas diretas a api
 $router->get('/live/students', function(Illuminate\Http\Request $request) use ($router) {
@@ -67,27 +73,26 @@ $router->get('/live/students', function(Illuminate\Http\Request $request) use ($
     }
 });
 
-$router->get('/update_db', ['middleware' => 'IPAddresses', function(Illuminate\Http\Request $request) use ($router) {
 
-
-}]);
-
-
-$router->get('/read_db', function() use ($router) {
-    $results = app('db')->select("SELECT * FROM pio.migrations");
-    echo json_encode($results);
+$router->get('/api/students', function() use ($router) {
+    $results = app('db')->select("SELECT * FROM pio.student_detail");
+    echo json_encode($results, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
 });
 
 
-$router->get('/read_db_facade', function() use ($router) {
-     $results = app('db')->select("SELECT * FROM pio.migrations");
-    echo json_encode($results);
+$router->get('/api/student/{id:[0-9]{10}}', function($id = null) {
+    $detail = DB::table("student_detail")->where('numSGA', $id)->first();
+    $contact = DB::table("student_contact")->where('numInt', $detail->numInt)->first();
+    $academic = DB::table("student_academic")->where('numSGA', $id)->first();
+    $merged = array_merge((array)$detail, (array)$contact);
+    $merged = array_merge((array)$merged, (array)$academic);
+    return json_encode($merged, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
 });
 
 // Populate DB
 $router->get('/updateStudents', 'DataController@updateStudents');
 //$router->get('/listStudents', 'DataController@listStudents');
-$router->get('/listStudents','JsonController@listStudents');
+$router->get('/listStudents', 'JsonController@listStudents');
 
 $router->get('/uniqueStudents', 'DataController@detailStudents');
 $router->get('/retrieveTeachers', 'DataController@retrieveTeachers');

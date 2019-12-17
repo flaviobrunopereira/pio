@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/controller/controlador.php" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/index.php" charset="windows-1252" />
+    <file url="file://$PROJECT_DIR$/lumen/resources/views/listStudents.php" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/model/modelo.php" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/view/courses.php" charset="windows-1252" />
     <file url="file://$PROJECT_DIR$/view/view.php" charset="windows-1252" />

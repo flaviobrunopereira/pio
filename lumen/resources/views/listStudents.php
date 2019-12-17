@@ -58,14 +58,14 @@
         <table id="table_students">
             <thead>
             <tr>
-                <th data-field="numInt">numInt</th>
-                <th data-field="numSGA">numSGA</th>
-                <th data-field="name">Nome</th> <!-- NumSGA-->
-                <th data-field="emailInt">emailInt</th>
-                <th data-field="emailAlt">emailAlt</th>
-                <th data-field="courseCode">courseCode</th> <!-- NumSGA-->
-                <th data-field="course">course</th> <!-- NumSGA-->
-                <th data-field="status">status</th>
+                <th data-field="numInt" class="numInt">numInt</th>
+                <th data-field="numSGA" class="numSGA">numSGA</th>
+                <th data-field="name" class="name">Nome</th> <!-- NumSGA-->
+                <th data-field="emailInt" class="emailInt">emailInt</th>
+                <th data-field="emailAlt" class="emailAlt">emailAlt</th>
+                <th data-field="courseCode" class="courseCode">courseCode</th> <!-- NumSGA-->
+                <th data-field="course" class="course">course</th> <!-- NumSGA-->
+                <th data-field="status" class="status">status</th>
             </tr>
             </thead>
         </table>

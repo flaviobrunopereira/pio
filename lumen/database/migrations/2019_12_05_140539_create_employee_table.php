@@ -25,12 +25,9 @@ class CreateEmployeeTable extends Migration
             $table->string('nationality')->nullable();
             $table->string('nif');
             $table->string('gender');
+            $table->string('ou');
             $table->date('birthDate')->nullable();
         });
-
-
-
-
     }
 
     /**
@@ -40,6 +37,6 @@ class CreateEmployeeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('employee');
+        Schema::dropIfExists('employees');
     }
 }

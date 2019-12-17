@@ -27,6 +27,17 @@ return [
             'collation' => 'utf8_unicode_ci',
             'prefix'    => '',
             'strict'    => false,
+        ],
+        'mysql_giaf' => [
+            'driver'    => 'mysql',
+            'host'      => env('DB_HOST3', 'localhost'),
+            'database'  => env('DB_DATABASE3', 'giaf'),
+            'username'  => env('DB_USERNAME3', 'giaf'),
+            'password'  => env('DB_PASSWORD3', 'giaf'),
+            'charset'   => 'utf8',
+            'collation' => 'utf8_unicode_ci',
+            'prefix'    => '',
+            'strict'    => false,
         ]
     ],
 
