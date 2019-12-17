@@ -151,9 +151,10 @@ class UpdateEmployeesCommand extends Command
             echo $e->getRequest() . "\n";
             Log::error('Error inserting employee : ' . $value['employeeNumber'] . "Error: " . $e);
         }
-        Log::info("Table: employeedetails updated");
-    }
 
+
+    }
+        Log::info("Table: employeedetails updated");
     }
 
 
