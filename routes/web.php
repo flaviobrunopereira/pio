@@ -94,6 +94,9 @@ $router->get('/updateStudents', 'DataController@updateStudents');
 //$router->get('/listStudents', 'DataController@listStudents');
 $router->get('/listStudents', 'JsonController@listStudents');
 $router->get('/listTeachers', 'JsonController@listTeachers');
+// Rota temporária apenas para testes
+$router->get('/listTeachers2', 'JsonController@listTeachers2');
+
 $router->get('/listEmployees', 'JsonController@listEmployees');
 $router->get('/uniqueStudents', 'DataController@detailStudents');
 $router->get('/retrieveTeachers', 'DataController@retrieveTeachers');
