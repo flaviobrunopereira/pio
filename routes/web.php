@@ -89,13 +89,25 @@ $router->get('/api/student/{id:[0-9]{10}}', function($id = null) {
     return json_encode($merged, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
 });
 
+$router->get('/api/teacher/{id:[0-9]{2,6}}', function($id = null) {
+    $teacher = DB::table("employeedetails")->where('employeeNumber', $id)->first();
+    return json_encode($teacher, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+});
+
 // Populate DB
 $router->get('/updateStudents', 'DataController@updateStudents');
 //$router->get('/listStudents', 'DataController@listStudents');
 $router->get('/listStudents', 'JsonController@listStudents');
 $router->get('/listTeachers', 'JsonController@listTeachers');
+
+
 // Rota temporária apenas para testes
 $router->get('/listTeachers2', 'JsonController@listTeachers2');
+$router->get('/listEmployees2', 'JsonController@listEmployees2');
+$router->get('/listCourses', 'JsonController@listCourses');
+// Fim de testes
+
+
 
 $router->get('/listEmployees', 'JsonController@listEmployees');
 $router->get('/uniqueStudents', 'DataController@detailStudents');

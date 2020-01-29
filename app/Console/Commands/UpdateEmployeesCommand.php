@@ -122,14 +122,14 @@ class UpdateEmployeesCommand extends Command
         try {
             $response = $this->fetchData($url, $body);
             $value = json_decode($response, true);
-            Log::info($value);
+            Log::info($employee->ou . " " .  sprintf("%06d",$employee->employeeNumber) . " " . $value['name']);
             $results = DB::table("employeedetails")->updateOrInsert([
                     'employeeNumber' => $value['numInt'],
-                    'name' => $value['name'],
-                ],
-                    ['gender' => $value['gender'],
-                    'categoryProf' => $value['categoryProf'],
                     'nif' => $value['nif'],
+                ],
+                    ['name' => $value['name'],
+                    'gender' => $value['gender'],
+                    'categoryProf' => $value['categoryProf'],
                     'type' => $value['type'],
                     'emailAlt' => $value['emailAlt'],
                     'emailInst' => $value['emailInst'],

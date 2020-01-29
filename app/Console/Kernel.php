@@ -2,6 +2,7 @@
 
 namespace App\Console;
 
+use App\Console\Commands\Command;
 use Illuminate\Console\Scheduling\Schedule;
 use Laravel\Lumen\Console\Kernel as ConsoleKernel;
 
@@ -16,6 +17,8 @@ class Kernel extends ConsoleKernel
         Commands\UpdateStudentsCommand::class,
         Commands\UpdateTeachersCommand::class,
         Commands\UpdateEmployeesCommand::class,
+        Commands\UpdateSubjectsCommand::class,
+        Commands\UpdateCoursesCommand::class,
         Commands\SyncSigesCommand::class,
         Commands\SyncGiafCommand::class
     ];
@@ -28,10 +31,12 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-    	$schedule->command('update:employees')->twiceDaily(1,13);
+    $schedule->command('update:employees')->twiceDaily(1,13);
 	$schedule->command('update:students')->dailyAt('01:04');
 	$schedule->command('update:teachers')->twiceDaily(0,12);
 	$schedule->command('update:siges')->dailyAt('12:47');
+    $schedule->command('update:subjects')->dailyAt('12:47');
+    $schedule->command('update:courses')->dailyAt('12:47');
 	$schedule->command('update:giaf')->dailyAt('12:48');
     }
 }

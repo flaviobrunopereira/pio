@@ -74,6 +74,42 @@ class JsonController extends Controller
     }
 
 
+    /////// TESTES
+    public function listTeachers2(Request $request)
+    {
+        $listTeachers = DB::table("Teachers")->orderBy('name')->get();
+        foreach ($listTeachers as $teacher) {
+
+            $getQualification = DB::table("employeedetails")
+                ->where('emailInst', $teacher->email)
+                ->first();
+
+            if(is_null($getQualification)) {
+                Log::info($teacher->email . ' : No details available.');
+            }
+            else {
+                //print_r($getQualification);
+                // Adicionar propriedades ao objecto
+                $teacher->higherDegree = $getQualification->higherDegree;
+                $teacher->categoryProf = $getQualification->categoryProf;
+                $teacher->higherDegree_course = $getQualification->higherDegree_course;
+                $teacher->employeeNumber = $getQualification->employeeNumber;
+                $teacher->active = $getQualification->active ? "Activo": "Inativo";
+            }
+
+        }
+
+            return json_encode($listTeachers); }
+
+    /////// TESTES
+    public function listEmployees2(Request $request)
+        {
+        $listTeachers = DB::table("employees")->where([['ou','ISCAC'],[ 'teacher', '0']])->orderBy('name')->get();
+        return json_encode($listTeachers);
+        }
+
+
+
     public function listCourses(Request $request)
     {
         $listCourses = DB::table("Courses")->orderBy('codecourse')->get();

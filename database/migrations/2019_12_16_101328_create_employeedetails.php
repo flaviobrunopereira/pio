@@ -14,7 +14,7 @@ class CreateEmployeedetails extends Migration
     public function up()
     {
         Schema::create('employeedetails', function (Blueprint $table) {
-            $table->integer('employeeNumber')->primary();
+            $table->integer('employeeNumber');
             $table->string('name');
             $table->string('gender')->nullable();
             $table->string('categoryProf')->nullable();

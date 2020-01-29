@@ -20,26 +20,26 @@ use Illuminate\Console\Command;
 
 
 /**
- * Class UpdateSubjectsCommand
+ * Class UpdateCourseCommand
  *
  * @category Console_Command
  * @package  App\Console\Commands
  */
-class UpdateSubjectsCommand extends Command
+class UpdateCoursesCommand extends Command
 {
     /**
      * The console command name.
      *
      * @var string
      */
-    protected $signature = "update:subjects";
+    protected $signature = "update:courses";
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = "Fetch Subjects from pio api and update DB";
+    protected $description = "Fetch Courses from pio api and update DB";
 
 
     /**
@@ -50,47 +50,53 @@ class UpdateSubjectsCommand extends Command
     public function handle()
     {
         try {
-            $students = UpdateSubjectsCommand::updateSubjects();
+            $students = UpdateCoursesCommand::updateCourses();
         } catch (Exception $e) {
             $this->error("An error occurred");
         }
     }
 
     // Update DB
-     public function updateSubjects()
+     public function updateCourses()
      {
-         $url = env("PIO_URL") . '/asservices/rest/v1/courseservice/retrievesubjects';
+         $url = env("PIO_URL") . '/asservices/rest/v1/courseservice/retrievecourses';
          $body = array(
              'ou' => "ISCAC",
              'academicSystem' => "nonio"
          );
+
          try {
              $response = $this->fetchData($url, $body);
              $retrieved_data = json_decode($response, true);
-             $subjects = $retrieved_data["subjects"];
-             foreach ($subjects as $key => $value) {
-                 $results = DB::table("subjects")->updateOrInsert([
-                     'subjectCode' => $value['subjectCode']]
-                     ,
-                     ['courseCode' => $value['courseCode'],
-                     'language' => $value['language'],
-                     'plancode' => $value['planCode'],
-                     'branchCode' => $value['branchCode'],
-                     'subjectName' => $value['subjectName'],
-                     'curricularYear' => $value['curricularYear'],
-                     'period' => $value['period'],
-                     'ects' => $value['ects'],
-                     'mandatory' => $value['mandatory'],
-                     'internship' => $value['internship'],
+             $courses = $retrieved_data["courses"];
+             foreach ($courses as $key => $value) {
+                 $results = DB::table("courses")->updateOrInsert([
+                     'codeDGES' => $value["codeDGES"],
+                     'courseCode' => $value["courseCode"],
+                     'degreeCode' => $value["degreeCode"],
+                     'coursePublic' => $value["coursePublic"],
+                     'degree' => $value["degree"],
+                     'language' => $value["language"],
+                     'frequencyRegime' => $value["frequencyRegime"],
+                     'duration' => $value["duration"],
+                     'courseName' => $value["courseName"],
+                     'ects' => $value["ects"],
+                     'courseActive' => $value["courseActive"],
+                     'normalizedDegreeCode' => $value["normalizedDegreeCode"],
+                     'codeCNAEF' => $value["codeCNAEF"],
                  ]);
-                 Log::info($results?"Updated":"Inserted" . ' : ' . $value['subjectCode'] . '' );
+                 Log::info(($results?"Updated":"Inserted") . " : " . $value['courseCode'] . "" );
+
+
+
+
 
              }
          } catch (ClientException $e) {
              echo $e->getRequest() . "\n";
-             Log::error('Error inserting subject : ' . $value['subjectCode'] . "Error: " . $e);
+             Log::error('Error inserting course : ' . $value['courseCode'] . "Error: " . $e);
          }
-         Log::info('Table: Subjects updated.');
+         Log::info('Courses updated.');
      }
 
 

@@ -58,7 +58,7 @@
         <table id="table_listEmployees"  data-search="true">
             <thead>
             <tr>
-                <th data-field="employeeNumber" class="employeeNumber" data-sortable="true">employeeNumber</th>
+                <th data-field="employeeNumber" class="employeeNumber" data-sortable="true">N.º</th>
                 <th data-field="name" class="name" data-sortable="true">Nome</th> <!-- NumSGA-->
                 <th data-field="professionalCategory" class="professionalCategory" data-sortable="true">professionalCategory</th>
                 <th data-field="teacher" class="teacher" data-sortable="true">teacher</th>
@@ -69,7 +69,7 @@
                 <th data-field="nationality" class="nationality" data-sortable="true">nationality</th>
                 <th data-field="nif" class="nif" data-sortable="true">nif</th>
                 <th data-field="gender" class="gender" data-sortable="true">gender</th>
-                <th data-field="ou" class="ou" data-sortable="true">ou</th>
+                <th data-field="ou" class="ou" data-sortable="true" >ou</th>
             </tr>
             </thead>
         </table>

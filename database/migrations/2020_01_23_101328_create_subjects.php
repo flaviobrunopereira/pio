@@ -15,10 +15,11 @@ class CreateSubjects extends Migration
     public function up()
     {
         Schema::create('subjects', function (Blueprint $table) {
-            $table->string('courseCode')->primary();
+            $table->string('courseCode');
             $table->string('planCode');
             $table->string('branchCode');
-            $table->string('subjectCode');
+            $table->string('subjectCode')->primary();
+            $table->string('language');
             $table->string('subjectName');
             $table->integer('curricularYear');
             $table->string('period');
