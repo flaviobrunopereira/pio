@@ -55,18 +55,22 @@
 <body>
 <div class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="tab-pane fade show active" id="v-pills-alunos" role="tabpanel" aria-labelledby="v-pills-alunos-tab">
-        <table id="table_students"  data-search="true">
+        <table id="table_courses" data-search="true">
             <thead>
             <tr>
-                <th data-field="numInt" class="numInt" data-sortable="true">numInt</th>
-                <th data-field="numSGA" class="numSGA" data-sortable="true">numSGA</th>
-                <th data-field="name" class="name" data-sortable="true">Nome</th> <!-- NumSGA-->
-                <th data-field="emailInt" class="emailInt" data-sortable="true">emailInt</th>
-                <th data-field="emailAlt" class="emailAlt" data-sortable="true">emailAlt</th>
-                <th data-field="courseCode" class="courseCode" data-sortable="true">courseCode</th> <!-- NumSGA-->
-                <th data-field="course" class="course" data-sortable="true">course</th> <!-- NumSGA-->
-                <th data-field="status" class="status" data-sortable="true">status</th>
-                <th data-field="photo" class="photo" data-sortable="false">photo</th>
+                <th data-field="courseCode" class="courseCode" data-sortable="true">courseCode.</th>
+                <th data-field="degreeCode" class="degreeCode" data-sortable="true">degreeCode</th>
+                <th data-field="coursePublic" class="coursePublic" data-sortable="true">Public</th> <!-- NumSGA-->
+                <th data-field="codeDGES" class="codeDGES" data-sortable="true">DGES</th>
+                <th data-field="degree" class="degree" data-sortable="true">degree</th>
+                <th data-field="language" class="language" data-sortable="true">lang</th>
+                <th data-field="frequencyRegime" class="frequencyRegime" data-sortable="true">Regime</th>
+                <th data-field="duration" class="duration" data-sortable="true">dur.</th>
+                <th data-field="courseName" class="courseName" data-sortable="true">courseName</th>
+                <th data-field="ects" class="ects" data-sortable="true">ects</th>
+                <th data-field="courseActive" class="courseActive" data-sortable="true">Active</th>
+                <th data-field="normalizedDegreeCode" class="normalizedDegreeCode" data-sortable="true">normalizedDegreeCode</th>
+                <th data-field="codeCNAEF" class="codeCNAEF" data-sortable="true">codeCNAEF</th>
             </tr>
             </thead>
         </table>
@@ -77,11 +81,11 @@
 
 
 <script type="text/javascript">
-    $(function () {
-        $('#table_students').bootstrapTable({
-            data: students
+    $(document).ready(function () {
+        $('#table_courses').bootstrapTable({
+            data: courses
         });
     });
 
-    var students=<?php echo trim($data, '\\'); ?>
+    var courses=<?php echo trim($data, '\\'); ?>
 </script>

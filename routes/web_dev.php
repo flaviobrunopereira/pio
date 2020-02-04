@@ -80,7 +80,14 @@ $router->get('/api/students', function() use ($router) {
 });
 
 
-$router->get('/api/student/{id:[0-9]{10}}', ['uses' => 'JsonController@listStudent']) ;
+$router->get('/api/student/{id:[0-9]{10}}', function($id = null) {
+    $detail = DB::table("student_detail")->where('numSGA', $id)->first();
+    $contact = DB::table("student_contact")->where('numInt', $detail->numInt)->first();
+    $academic = DB::table("student_academic")->where('numSGA', $id)->first();
+    $merged = array_merge((array)$detail, (array)$contact);
+    $merged = array_merge((array)$merged, (array)$academic);
+    return json_encode($merged, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_NUMERIC_CHECK);
+});
 
 $router->get('/api/teacher/{id:[0-9]{2,6}}', function($id = null) {
     $teacher = DB::table("employeedetails")->where('employeeNumber', $id)->first();

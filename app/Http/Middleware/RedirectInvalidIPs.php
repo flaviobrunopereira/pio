@@ -13,7 +13,7 @@ class RedirectInvalidIPs
 *
 * @var array
 */
-//protected $ips = ['192.168.69.221',];
+#protected $ips = ['192.168.69.221','172.16.12.245'];
 
 /**
 * List of valid IP-ranges.
@@ -50,7 +50,9 @@ return $next($request);
 */
 protected function isValidIp($ip)
 {
-   $ips = array(env('IP_ADDRESS'));
+    Log::debug(explode(',',(env('IP_ADDRESS'))));
+   $ips = explode(',',(env('IP_ADDRESS')));
+    Log::debug($ips);
 return in_array($ip, $ips);
 }
 
