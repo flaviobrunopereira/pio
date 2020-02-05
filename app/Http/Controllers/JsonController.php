@@ -53,7 +53,8 @@ class JsonController extends Controller
             foreach ($listStudents as $item){
                 if(($item->photo))
                 $item->photo = "<img width=100px height=100px src='" . $item->photo. "'/>";
-
+                if(($item->numSGA))
+                $item->numSGA = "<a href='/api/student/" . $item->numSGA. "'>$item->numSGA</a>";
     }
             return view('listStudents', ['data' => $listStudents]);
 

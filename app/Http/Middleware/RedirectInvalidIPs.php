@@ -50,9 +50,7 @@ return $next($request);
 */
 protected function isValidIp($ip)
 {
-    Log::debug(explode(',',(env('IP_ADDRESS'))));
    $ips = explode(',',(env('IP_ADDRESS')));
-    Log::debug($ips);
 return in_array($ip, $ips);
 }
 

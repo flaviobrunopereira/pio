@@ -149,8 +149,11 @@ class UpdateStudentsCommand extends Command
                             'emailAlt' => json_encode($sData['emailAlt'])
                     ]);
                     Log::debug('Got details of user: ' . $sData['numInt'] . " " . $sData['name']);
-                } catch (ClientException $e) {
+                } catch (Exception $e) {
                     Log::error('Error inserting user : ' . $sData['numInt'] . " " . $sData['name'] . ". Error: " . $e);
+                    Log::debug('Fetching details of user: ' . $value["numSGA"] . " " . $value["courseCode"]);
+                    Log::debug('Fetching details of user: ' . $sData['numInt'] . " " . $sData['numSGA']);
+                    Log::debug('Fetching details of user: ' . $sData['courseCode'] . " " . $sData['status']);
                 }
             }
          else {
@@ -196,7 +199,7 @@ class UpdateStudentsCommand extends Command
                         'allowNotifications' => $sData['allowNotifications'],
                     ]);
                     Log::info('Fetching contacts of user: ' . $numInt);;
-                } catch (ClientException $e) {
+                } catch (Exception $e) {
                     // echo $e->getRequest() . "\n";
                     Log::error('Error inserting user : ' . $numInt . "Error: " . $e);
                 }

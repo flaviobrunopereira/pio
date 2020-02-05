@@ -58,7 +58,7 @@
         <table id="table_student">
             <thead>
             <tr>
-                <th data-field="numInt" class="numInt" >numInt</th>
+                <th data-field="numInt" class="numInt">numInt</th>
                 <th data-field="numSGA" class="numSGA" >numSGA</th>
                 <th data-field="name" class="name" >Nome</th> <!-- NumSGA-->
                 <th data-field="emailInt" class="emailInt" >emailInt</th>
@@ -92,7 +92,7 @@
                 <th data-field="registrationDate" class="registrationDate">registrationDate</th>
                 <th data-field="admissionLectiveYear" class="admissionLectiveYear">admissionLectiveYear</th>
                 <th data-field="studyCycleCode" class="studyCycleCode">studyCycleCode</th>
-            </tr>
+                   </tr>
             </thead>
         </table>
     </div>
@@ -108,5 +108,5 @@
         });
     });
 
-    var student=<?php echo trim($data, '\\'); ?>
+    var student= [ <?php echo trim($data, '\\'); ?> ]
 </script>
