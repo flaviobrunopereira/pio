@@ -45,7 +45,7 @@ class JsonController extends Controller
     {
          $listStudents = DB::table("student_detail")->orderBy('name')->get();
         // to be improved with views
-        Log::info('Request Type' . $request);
+        Log::info(   'Request From: ' .  $request->ip() .  '   -  Request Type ' . $request);
         if($request->wantsJSON()) {
             Log::info('Should return Json');
             return json_encode($listStudents); }
@@ -84,7 +84,7 @@ class JsonController extends Controller
 
         }
         // to be improved with views
-        Log::info('Request Type' . $request);
+        Log::info('Request Type ' . $request);
         if($request->wantsJSON()) {
             return json_encode($listTeachers); }
         else
@@ -119,7 +119,7 @@ class JsonController extends Controller
        // $listEmployees = DB::table("employees")->orderBy('employeeNumber')->get();
         $listEmployees = DB::table("employees")->where([['ou','ISCAC'],[ 'teacher', '0']])->orderBy('name')->get();
         // to be improved with views
-        Log::info('Request Type' . $request);
+        Log::info('Request Type ' . $request);
         if($request->wantsJson()) {
             return json_encode($listEmployees); }
         else

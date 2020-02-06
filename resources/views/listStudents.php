@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.css">
     <script src="https://unpkg.com/bootstrap-table@1.15.5/dist/bootstrap-table.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.15.4/extensions/export/bootstrap-table-export.js"></script>
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-table/1.15.5/extensions/copy-rows/bootstrap-table-copy-rows.min.js"></script> -->
 
     <!-- To be exported to CSS-->
     <style>
@@ -55,7 +56,7 @@
 <body>
 <div class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="tab-pane fade show active" id="v-pills-alunos" role="tabpanel" aria-labelledby="v-pills-alunos-tab">
-        <table id="table_students"  data-search="true">
+        <table id="table_students"  data-search="true" data-show-toggle="true">
             <thead>
             <tr>
                 <th data-field="numInt" class="numInt" data-sortable="true">numInt</th>
@@ -63,9 +64,9 @@
                 <th data-field="name" class="name" data-sortable="true">Nome</th> <!-- NumSGA-->
                 <th data-field="emailInt" class="emailInt" data-sortable="true">emailInt</th>
                 <th data-field="emailAlt" class="emailAlt" data-sortable="true">emailAlt</th>
-                <th data-field="courseCode" class="courseCode" data-sortable="true">courseCode</th> <!-- NumSGA-->
+                <th data-field="courseCode" class="courseCode" data-sortable="true" >courseCode</th> <!-- NumSGA-->
                 <th data-field="course" class="course" data-sortable="true">course</th> <!-- NumSGA-->
-                <th data-field="status" class="status" data-sortable="true">status</th>
+                <th data-field="status" class="status" data-sortable="true" >status</th>
                 <th data-field="photo" class="photo" data-sortable="false">photo</th>
             </tr>
             </thead>
